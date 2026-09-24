@@ -32,7 +32,74 @@ const createProject = async (req, res) => {
   }
 };
 
+const getProjectById = async (req, res) => {
+  try {
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Projet introuvable",
+      });
+    }
+
+    res.status(200).json(project);
+  } catch (error) {
+    res.status(400).json({
+      message: "ID de projet invalide",
+    });
+  }
+};
+
+const updateProject = async (req, res) => {
+  try {
+    const project = await Project.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Projet introuvable",
+      });
+    }
+
+    res.status(200).json(project);
+  } catch (error) {
+    res.status(400).json({
+      message: "Impossible de modifier le projet",
+      error: error.message,
+    });
+  }
+};
+
+const deleteProject = async (req, res) => {
+  try {
+    const project = await Project.findByIdAndDelete(req.params.id);
+
+    if (!project) {
+      return res.status(404).json({
+        message: "Projet introuvable",
+      });
+    }
+
+    res.status(200).json({
+      message: "Projet supprimé avec succès",
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Impossible de supprimer le projet",
+    });
+  }
+};
+
 module.exports = {
   getProjects,
+  getProjectById,
   createProject,
+  updateProject,
+  deleteProject,
 };
