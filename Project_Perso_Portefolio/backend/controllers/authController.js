@@ -60,6 +60,27 @@ const login = async (req, res) => {
   }
 };
 
+const getMe = async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin.adminId).select("-password");
+
+    if (!admin) {
+      return res.status(404).json({
+        message: "Administrateur introuvable",
+      });
+    }
+
+    res.status(200).json({
+      admin,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération de l'administrateur",
+    });
+  }
+};
+
 module.exports = {
   login,
+  getMe,
 };

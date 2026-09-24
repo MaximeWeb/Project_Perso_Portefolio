@@ -9,37 +9,34 @@ import ProjectForm from "../components/ProjectForm.jsx";
 import DeleteModal from "../components/DeleteModal.jsx";
 
 
+
+
 function Dashboard() {
   const [projects, setProjects] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
+const [projectToEdit, setProjectToEdit] = useState(null);
 
   const navigate = useNavigate();
 
   // Chargement des projets
-  useEffect(() => {
-    const token = localStorage.getItem("adminToken");
+ 
+useEffect(() => {
+  const loadProjects = async () => {
+    try {
+      const data = await getProjects();
 
-    // Si aucun token n'est présent, retour à la connexion
-    if (!token) {
-      navigate("/admin");
-      return;
+      setProjects(data);
+    } catch (error) {
+      console.error(
+        "Erreur lors du chargement des projets :",
+        error
+      );
     }
+  };
 
-    const loadProjects = async () => {
-      try {
-        const data = await getProjects();
-        setProjects(data);
-      } catch (error) {
-        console.error(
-          "Erreur lors du chargement des projets :",
-          error
-        );
-      }
-    };
-
-    loadProjects();
-  }, [navigate]);
+  loadProjects();
+}, []);
 
   // Appelé lorsqu'un nouveau projet est créé
   const handleProjectCreated = (newProject) => {
@@ -56,6 +53,18 @@ function Dashboard() {
     localStorage.removeItem("adminToken");
     navigate("/admin");
   };
+
+  const handleProjectUpdated = (updatedProject) => {
+  setProjects((previousProjects) =>
+    previousProjects.map((project) =>
+      project._id === updatedProject._id
+        ? updatedProject
+        : project
+    )
+  );
+
+  setProjectToEdit(null);
+};
 
 const handleDelete = async () => {
   if (!projectToDelete) {
@@ -98,21 +107,34 @@ const handleDelete = async () => {
 
       {/* AJOUTER UN PROJET */}
 
-      <button
-        className="contact-button"
-        onClick={() => setShowForm(true)}
-      >
-        + Ajouter un projet
-      </button>
+     <button
+  className="contact-button"
+  onClick={() => {
+    setShowForm(true);
+    setProjectToEdit(null);
+  }}
+>
+  + Ajouter un projet
+</button>
 
       {/* FORMULAIRE */}
 
+    
       {showForm && (
-        <ProjectForm
-          onProjectCreated={handleProjectCreated}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
+  <ProjectForm
+    onProjectCreated={handleProjectCreated}
+    onCancel={() => setShowForm(false)}
+  />
+)}
+
+{projectToEdit && (
+  <ProjectForm
+    key={projectToEdit._id}
+    project={projectToEdit}
+    onProjectUpdated={handleProjectUpdated}
+    onCancel={() => setProjectToEdit(null)}
+  />
+)}
 
       {/* LISTE DES PROJETS */}
 
@@ -142,9 +164,14 @@ const handleDelete = async () => {
               </div>
 
               <div className="dashboard-actions">
-                <button>
-                  Modifier
-                </button>
+              <button
+  onClick={() => {
+    setProjectToEdit(project);
+    setShowForm(false);
+  }}
+>
+  Modifier
+</button>
 
          <button
   onClick={() => setProjectToDelete(project)}

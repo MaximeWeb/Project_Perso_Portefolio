@@ -20,3 +20,26 @@ export const loginAdmin = async (email, password) => {
 
   return data;
 };
+
+export const getCurrentAdmin = async () => {
+  const token = localStorage.getItem("adminToken");
+
+  if (!token) {
+    throw new Error("Aucun token");
+  }
+
+  const response = await fetch(`${API_URL}/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Session invalide");
+  }
+
+  return data;
+};
