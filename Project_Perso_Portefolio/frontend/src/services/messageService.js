@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api/messages";
+const API_URL =
+  "https://project-perso-portefolio.onrender.com/api/messages";
 
 export const sendMessage = async (messageData) => {
   const response = await fetch(API_URL, {

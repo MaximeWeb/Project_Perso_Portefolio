@@ -1,4 +1,5 @@
-const API_URL = "http://localhost:5000/api/auth";
+const API_URL =
+  "https://project-perso-portefolio.onrender.com/api/auth";
 
 export const loginAdmin = async (email, password) => {
   const response = await fetch(`${API_URL}/login`, {
