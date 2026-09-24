@@ -1,4 +1,14 @@
 function Hero() {
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <section className="hero" id="home">
       <div className="hero-content">
@@ -15,13 +25,19 @@ function Hero() {
         </p>
 
         <div className="hero-actions">
-          <a href="#projects" className="button-primary">
+          <button
+            className="button-primary"
+            onClick={() => scrollToSection("projects")}
+          >
             Découvrir mes projets
-          </a>
+          </button>
 
-          <a href="#contact" className="button-secondary">
+          <button
+            className="button-secondary"
+            onClick={() => scrollToSection("contact")}
+          >
             Me contacter
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -29,3 +45,4 @@ function Hero() {
 }
 
 export default Hero;
+

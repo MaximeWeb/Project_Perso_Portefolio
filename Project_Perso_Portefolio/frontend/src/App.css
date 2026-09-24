@@ -122,13 +122,21 @@ a {
   padding: 15px 25px;
   border-radius: 30px;
   font-weight: 600;
+
+  /* Pour les <button> */
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 .button-primary {
   background: #8b5cf6;
+  border: none;
 }
 
 .button-secondary {
+  background: transparent;
   border: 1px solid #333;
 }
 
