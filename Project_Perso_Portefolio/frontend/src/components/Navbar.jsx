@@ -1,20 +1,47 @@
 function Navbar() {
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <header className="navbar">
-      <a href="#" className="logo">
+      <button
+        className="logo"
+        onClick={() => scrollToSection("home")}
+      >
         MN<span>.</span>
-      </a>
+      </button>
 
       <nav className="nav-links">
-        <a href="#home">Accueil</a>
-        <a href="#projects">Projets</a>
-        <a href="#about">À propos</a>
-        <a href="#contact">Contact</a>
+        <button onClick={() => scrollToSection("home")}>
+          Accueil
+        </button>
+
+        <button onClick={() => scrollToSection("projects")}>
+          Projets
+        </button>
+
+        <button onClick={() => scrollToSection("about")}>
+          À propos
+        </button>
+
+        <button onClick={() => scrollToSection("contact")}>
+          Contact
+        </button>
       </nav>
 
-      <a href="#contact" className="nav-button">
+      <button
+        className="nav-button"
+        onClick={() => scrollToSection("contact")}
+      >
         Me contacter
-      </a>
+      </button>
     </header>
   );
 }
