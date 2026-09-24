@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+
 
 import {
   getProjects,
@@ -7,6 +7,7 @@ import {
 } from "../services/projectService.js";
 import ProjectForm from "../components/ProjectForm.jsx";
 import DeleteModal from "../components/DeleteModal.jsx";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -91,19 +92,28 @@ const handleDelete = async () => {
     <main className="dashboard">
       {/* HEADER */}
 
-      <div className="dashboard-header">
-        <div>
-          <p className="section-label">
-            ADMINISTRATION
-          </p>
+     <div className="dashboard-header">
+  <div>
+    <p className="section-label">
+      ADMINISTRATION
+    </p>
 
-          <h1>Mes projets</h1>
-        </div>
+    <h1>Mes projets</h1>
+  </div>
 
-        <button onClick={handleLogout}>
-          Déconnexion
-        </button>
-      </div>
+  <div className="dashboard-navigation">
+    <Link
+      to="/admin/messages"
+      className="admin-link"
+    >
+      Messages
+    </Link>
+
+    <button onClick={handleLogout}>
+      Déconnexion
+    </button>
+  </div>
+</div>
 
       {/* AJOUTER UN PROJET */}
 

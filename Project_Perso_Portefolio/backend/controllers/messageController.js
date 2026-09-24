@@ -27,6 +27,22 @@ const createMessage = async (req, res) => {
   }
 };
 
+// Récupérer tous les messages
+const getMessages = async (req, res) => {
+  try {
+    const messages = await Message.find().sort({
+      createdAt: -1,
+    });
+
+    res.status(200).json(messages);
+  } catch (error) {
+    res.status(500).json({
+      message: "Erreur lors de la récupération des messages",
+    });
+  }
+};
+
 module.exports = {
   createMessage,
+  getMessages,
 };

@@ -12,7 +12,30 @@ export const sendMessage = async (messageData) => {
   const data = await response.json();
 
   if (!response.ok) {
-    throw new Error(data.message || "Impossible d'envoyer le message");
+    throw new Error(
+      data.message || "Impossible d'envoyer le message"
+    );
+  }
+
+  return data;
+};
+
+export const getMessages = async () => {
+  const token = localStorage.getItem("adminToken");
+
+  const response = await fetch(API_URL, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || "Impossible de récupérer les messages"
+    );
   }
 
   return data;
